@@ -24,33 +24,34 @@ class Node:
 class Queue:
     def __init__(self):
         self.size = 0
-        self.head = None
-        self.tail = None
+        self.storage = None
 
     def __len__(self):
         return self.size
 
     def enqueue(self, value):
         new_head = Node(value)
-        if self.head:
-            new_head.next = self.head
-        else:
-            self.tail = new_head
-        self.head = new_head
+        if self.storage:
+            new_head.next = self.storage
+        self.storage = new_head
         self.size += 1
 
     def dequeue(self):
         if self.size == 0:
             return None
+
         self.size -= 1
-        old_tail_value = self.tail.value
-        if self.head is self.tail:
-            self.head = None
-            self.tail = None
-        else:
-            cur_node = self.head
-            while cur_node.next != self.tail:
-                cur_node = cur_node.next
-            cur_node.next = None
-            self.tail = cur_node
-        return old_tail_value
+
+        if self.size == 0:
+            value = self.storage.value
+            self.storage = None
+            return value
+
+        cur_node = self.storage
+
+        while cur_node.next.next:
+            cur_node = cur_node.next
+
+        value = cur_node.next.value
+        cur_node.next = None
+        return value
