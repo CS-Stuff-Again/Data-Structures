@@ -32,12 +32,16 @@ class LRUCache:
     def get(self, key):
         if key in self.storage:
             new_head = self.storage[key]
+
             if new_head is self.tail:
                 self.tail = self.tail.prev
+
             self.head.prev = new_head
             new_head.next = self.head
             self.head = new_head
+
             return new_head.value[1]
+
         return None
 
     """
@@ -74,15 +78,3 @@ class LRUCache:
 
         self.head = new_head
         self.storage[key] = self.head
-
-
-# lru = LRUCache(2)
-
-# lru.set('first', 'first_value')
-# lru.set('second', 'second_value')
-# print(lru.get('first'))
-# lru.set('third', 'third_value')
-
-# print(lru.get('first'))
-# print(lru.get('second'))
-# print(lru.get('third'))
